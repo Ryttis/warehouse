@@ -42,8 +42,21 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Price
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Quantity
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status
                             </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Details
+                            </th>
+
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Edit</span>
                             </th>
@@ -61,6 +74,8 @@
                                 <td class="pl-8">{{ $product->type }}</td>
                                 <td class="pl-8">{{ $product->color }}</td>
                                 <td class="pl-8">{{ $product->weight }}</td>
+                                <td class="pl-8">{{ $product->price }}</td>
+                                <td class="pl-8">{{ $product->quantity }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -71,6 +86,7 @@
                                         @endif
                                     </span>
                                 </td>
+                                <td class="pl-8">{{ $product->details }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <form action={{ route('product.destroy', $product->id) }} method="POST">
                                         <a class="text-indigo-600 hover:text-indigo-900" href={{ route('product.edit', $product->id) }}>Edit</a>

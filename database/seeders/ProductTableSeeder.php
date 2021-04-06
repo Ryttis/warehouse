@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Price;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+
+
 
 class ProductTableSeeder extends Seeder
 {
@@ -14,6 +17,6 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory()->count(50)->create();
+        Product::factory()->count(10)->has(Price::factory()->count(5))->create();
     }
 }

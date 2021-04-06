@@ -59,6 +59,21 @@
                             <input type="text" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
 
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="text" name="price" id="price" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                            <input type="text" name="quantity" id="quantity" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
+                            <input type="text" name="details" id="details" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
 
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                             <button type="submit"

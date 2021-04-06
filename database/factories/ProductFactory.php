@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->catchPhrase,
             'ean' => $this->faker->ean8(),
             'type' => $this->faker->slug('1'),
-            'weight' => $this->faker->randomFloat(1,1,2),
+            'weight' => $this->faker->randomNumber(3,2),
             'color' => $this->faker->colorName,
             'active' => $this->faker->boolean,
         ];

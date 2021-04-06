@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Price;
 use App\Models\Color;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::paginate('10');
+        $prices = Price::paginate('10');
 
-        return view('dashboard', ['products' => $products]);
+        return view('dashboard', ['products' => $products, 'prices' => $prices]);
     }
 
     /**
@@ -48,6 +50,9 @@ class ProductController extends Controller
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
+                'price' => 'required|numeric',
+                'quantity' => 'required|numeric',
+                'details' => 'required',
             ]
         );
 
@@ -60,6 +65,9 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->active = $request->status;
         $product->image = $request->image;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->details = $request->details;
         $product->save();
 
         return redirect()->route('dashboard');
@@ -86,7 +94,6 @@ class ProductController extends Controller
     {
         $colors = Color::all();
 
-
         return view('components.product-edit', ['product' => $product, 'colors' => $colors]);
     }
 
@@ -107,6 +114,9 @@ class ProductController extends Controller
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
+                'price' => 'required|numeric',
+                'quantity' => 'required|numeric',
+                'details' => 'required',
             ]
         );
 
@@ -117,7 +127,9 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->active = $request->status;
         $product->image = $request->image;
-
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->details = $request->details;
         $product->save();
 
         return redirect()->route('dashboard');
