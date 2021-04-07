@@ -28,6 +28,8 @@ class ProductFactory extends Factory
             'weight' => $this->faker->randomNumber(3,2),
             'color' => $this->faker->colorName,
             'active' => $this->faker->boolean,
+            'created_at' => $this->faker->dateTimeBetween('-2 years','-1 month'),
+            'updated_at' => $this->faker->dateTimeBetween('yesterday', 'today')
         ];
     }
 }

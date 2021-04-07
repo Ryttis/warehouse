@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Price;
 use App\Models\Color;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -16,10 +17,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate('10');
-        $prices = Price::paginate('10');
+        $products = Product::paginate(10);
 
-        return view('dashboard', ['products' => $products, 'prices' => $prices]);
+        return view('dashboard', ['products' => $products]);
     }
 
     /**
@@ -38,11 +38,12 @@ class ProductController extends Controller
      * Store a new blog post.
      *
      * @param  Request  $request
-     * @return Response
+     * @return Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        $request->validate(
+
+        $validator = Validator::make($request->all(),
             [
                 'ean' => 'required|string|size:8',
                 'type' => 'required|string',
@@ -50,11 +51,16 @@ class ProductController extends Controller
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
-                'price' => 'required|numeric',
-                'quantity' => 'required|numeric',
-                'details' => 'required',
             ]
         );
+
+        if ($validator->fails()) {
+            return redirect('product/create')
+                ->withErrors($validator->errors())
+                ->withInput();
+        }
+
+
 
         $product = new Product();
         $product->fill($request->all());
@@ -65,9 +71,6 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->active = $request->status;
         $product->image = $request->image;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->details = $request->details;
         $product->save();
 
         return redirect()->route('dashboard');
@@ -114,9 +117,6 @@ class ProductController extends Controller
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
-                'price' => 'required|numeric',
-                'quantity' => 'required|numeric',
-                'details' => 'required',
             ]
         );
 
@@ -127,9 +127,6 @@ class ProductController extends Controller
         $product->weight = $request->weight;
         $product->active = $request->status;
         $product->image = $request->image;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->details = $request->details;
         $product->save();
 
         return redirect()->route('dashboard');
