@@ -23,8 +23,4 @@ class Product extends Model
         return $this->hasMany('App\Models\Quantity');
     }
 
-    public function details()
-    {
-        return $this->hasMany('App\Models\Details');
-    }
 }

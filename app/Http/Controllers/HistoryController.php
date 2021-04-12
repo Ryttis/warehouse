@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use \Illuminate\Support\Facades\Route;
 
 class HistoryController extends Controller
 {
@@ -28,6 +29,7 @@ class HistoryController extends Controller
             ->LeftJoin('products','products.id' , '=','quantities.product_id' )
             ->select('quantities.quantity','products.name','quantities.created_at')
             ->orderByDesc('created_at')
+
             ->paginate(10);
 
         return view('history.history-quantities', ['quantities' => $quantities]);
@@ -52,7 +54,7 @@ class HistoryController extends Controller
             ->where('id', $id)
             ->restore();
 
-        return redirect()->route('history-trashed');
+        return redirect()->route('history-trashed',app()->getLocale());
     }
 
 }

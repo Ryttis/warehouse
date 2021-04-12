@@ -9,15 +9,15 @@
                         <tr>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Id
+                                {{__('Id')}}
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Name
+                                {{__('Title')}}
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Deleted At
+                                {{__('Deleted At')}}
                             </th>
                         </tr>
                         </thead>
@@ -28,20 +28,15 @@
                                 <td class="pl-8">{{ $detail->name  }}</td>
                                 <td class="pl-8">{{ $detail->deleted_at }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-centered text-sm font-medium">
-                                    <form action={{ route('history.destroy', $detail->id) }} method="POST">
-{{--                                        <a class="text-indigo-600 hover:text-indigo-900"--}}
-{{--                                           href={{ route('history.destroy', $detail->id) }}>Restore</a>--}}
+                                    <form action={{ route('history.destroy', [$detail->id, app()->getLocale() ]) }} method="POST">
                                         @csrf @method('delete')
-                                        <input type="submit" class="text-red-600 hover:text-red-900" value="Restore"/>
+                                        <input type="submit" class="text-red-600 hover:text-red-900" value="{{__('Restore')}}"/>
                                     </form>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-{{--                    <div class="mt-8 p-10">--}}
-{{--                        {{$details->links()}}--}}
-{{--                    </div>--}}
                 </div>
             </div>
         </div>

@@ -14,17 +14,12 @@
                         <tr>
                             <th scope="col"
                                 class="pl-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Id
+                                {{ __('Id') }}
                             </th>
                             <th scope="col"
                                 class="pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Title
+                                {{ __('Title') }}
                             </th>
-
-                            <th scope="col" class="relative px-6 py-3">
-                                <span class="sr-only">Remove</span>
-                            </th>
-
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -32,7 +27,6 @@
                             <tr>
                                 <th >{{ $color->id }}</th>
                                 <td >{{ $color->title }}</td>
-
                             </tr>
                         @endforeach
                         </tbody>
@@ -41,7 +35,6 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>
 
 

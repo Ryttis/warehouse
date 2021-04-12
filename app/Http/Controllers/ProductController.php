@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Advisor;
 use App\Models\Product;
 use App\Models\Color;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Price;
+use App\Models\Quantity;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+
+
 
 class ProductController extends Controller
 {
@@ -17,7 +23,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::paginate(8);
 
         return view('dashboard', ['products' => $products]);
     }
@@ -25,7 +31,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -43,7 +49,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
                 'ean' => 'required|string|size:8',
                 'type' => 'required|string',
@@ -51,19 +58,16 @@ class ProductController extends Controller
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
+                'image' => 'required|image'
             ]
         );
 
-        if ($validator->fails()) {
-            return redirect('product/create')
-                ->withErrors($validator->errors())
-                ->withInput();
+        if ($request->hasFile('image')) {
+            $request->file('image')->store('images', 'public');
         }
 
 
-
         $product = new Product();
-        $product->fill($request->all());
         $product->ean = $request->ean;
         $product->name = $request->name;
         $product->type = $request->type;
@@ -82,22 +86,41 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function test()
     {
-        //
+        $quant = Quantity::all()->first();
+        return  $quant->quantity . ' ' .Carbon::now()->toDateTimeLocalString();;
+    }
+
+    public function test1()
+    {
+
+        return  Advisor::getTested();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Product $product)
+    public function edit($language, Product $product)
     {
         $colors = Color::all();
+        $price = Price::all()->sortByDesc('created_at')->where('product_id', '=', $product->getAttribute('id'))
+            ->first();
+        $quantity = Quantity::all()->sortByDesc('created_at')->where('product_id', '=', $product->getAttribute('id'))
+            ->first();
 
-        return view('components.product-edit', ['product' => $product, 'colors' => $colors]);
+        return view(
+            'components.product-edit',
+            [
+                'product' => $product,
+                'colors' => $colors,
+                'price' => $price->price,
+                'quantity' => $quantity->quantity,
+            ]
+        );
     }
 
     /**
@@ -105,20 +128,26 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Product $product)
     {
         $request->validate(
             [
                 'ean' => 'required|string|size:8',
+
                 'type' => 'required|string',
                 'weight' => 'required|numeric',
                 'name' => 'required|string',
                 'color' => 'required|string',
                 'status' => 'required',
+                'image' => 'required|image',
             ]
         );
+
+        if ($request->hasFile('image')) {
+            $request->file('image')->store('images', 'public');
+        }
 
         $product->ean = $request->ean;
         $product->name = $request->name;
@@ -136,10 +165,12 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Product $product)
     {
+        dd($product);
         $product->delete();
 
         return redirect()->route('dashboard');
