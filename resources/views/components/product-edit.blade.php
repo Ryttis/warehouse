@@ -52,7 +52,20 @@
                         <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                         <input type="text" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
+                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                        <input type="text" name="price" id="price" value="{{$product->price}}"class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
 
+                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                        <input type="text" name="quantity" id="quantity" value="{{$product->quantity}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                        <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
+                        <input type="text" name="details" id="details" value="{{$product->details}} "class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
 
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

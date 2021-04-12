@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ProductController;
 use \App\Http\Controllers\ColorController;
+use \App\Http\Controllers\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,26 +16,38 @@ use \App\Http\Controllers\ColorController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('login');
-});
+Route::get(
+    '/',
+    function () {
+        return redirect('login');
+    }
+);
 
-Route::middleware(['auth'])->group(function(){
-    Route::resource('product', ProductController::class);
-    Route::post('product/edit/{product]', [ProductController::class,'edit']);
-    Route::post('product/update/{product]', [ProductController::class,'update']);
-    Route::resource('color', ColorController::class);
-    Route::post('color/edit/{product]', [ColorController::class,'edit']);
-    Route::post('colort/update/{product]', [ColorController::class,'update']);
+Route::middleware(['auth'])->group(
+    function () {
+        Route::resource('product', ProductController::class);
+        Route::post('product/edit/{product]', [ProductController::class, 'edit']);
+        Route::post('product/update/{product]', [ProductController::class, 'update']);
+        Route::resource('color', ColorController::class);
 
-//    Route::get('products/{id}/edit', 'ProductrController@edit')->name('product.edit');
-});
+//        Route::post('color/edit/{product]', [ColorController::class, 'edit']);
+//        Route::post('color/update/{product]', [ColorController::class, 'update']);
+        Route::get('product/prices', [ColorController::class, 'prices']);
+        Route::get('product/quantities', [ColorController::class, 'quantities']);
+        Route::get('product/details', [ColorController::class, 'details']);
 
-//Route::get('/list', [ProductController::class,'index'])->middleware(['auth'])->name('list');
-//Route::post('/edit/{product}', [ProductController::class,'edit'])->middleware(['auth'])->name('product.edit');;
-//Route::get('/store', [ProductController::class,'store'])->middleware(['auth'])->name('store');
-//Route::get('/update', [ProductController::class,'update'])->middleware(['auth'])->name('update');
-//Route::delete('/delete', [ProductController::class,'destroy'])->middleware(['auth'])->name('delete');
+
+        Route::get('history/prices', [HistoryController::class,'prices'])->name('history-prices');
+        Route::get('history/quantities', [HistoryController::class,'quantities'])->name('history-quantities');
+        Route::get('history/trashed', [HistoryController::class,'trashed'])->name('history-trashed');
+        Route::post('history/restore', [HistoryController::class,'restore'])->name('history-restore');
+
+        Route::resource('history', HistoryController::class)->except([
+            'create', 'store', 'update','show'
+        ]);
+    }
+);
+
 
 Route::get('/dashboard', [ProductController::class, 'index'])->middleware(['auth'])->name('dashboard');
 

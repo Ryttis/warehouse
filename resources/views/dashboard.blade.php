@@ -6,7 +6,7 @@
             <div class="text-right sm:px-6">
                 <button type="submit"
                         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <a href="{{ route('product.create') }}" class="btn btn-success">Create New Product</a>
+                    <a href="{{ route('product.create') }}" class="btn btn-success">New Product</a>
                 </button>
             </div>
 
@@ -40,10 +40,12 @@
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Weight (g)
                             </th>
+
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status
                             </th>
+
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Edit</span>
                             </th>
@@ -57,6 +59,7 @@
                         @foreach ($products as $product)
                             <tr>
                                 <th class="pl-4">{{ $product->ean }}</th>
+                                {{ $errors->first() }}
                                 <td class="pl-8">{{$product->name  }}</td>
                                 <td class="pl-8">{{ $product->type }}</td>
                                 <td class="pl-8">{{ $product->color }}</td>
@@ -71,9 +74,11 @@
                                         @endif
                                     </span>
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <form action={{ route('product.destroy', $product->id) }} method="POST">
-                                        <a class="text-indigo-600 hover:text-indigo-900" href={{ route('product.edit', $product->id) }}>Edit</a>
+                                        <a class="text-indigo-600 hover:text-indigo-900"
+                                           href={{ route('product.edit', $product->id) }}>Edit</a>
                                         @csrf @method('delete')
                                         <input type="submit" class="text-red-600 hover:text-red-900" value="Delete"/>
                                     </form>
@@ -89,5 +94,4 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>
