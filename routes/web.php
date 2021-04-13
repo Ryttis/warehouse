@@ -42,7 +42,7 @@ Route::group(['prefix' => '{language}'],
                 Route::get('product/{product]/edit', [ProductController::class, 'edit'])->name('product.edit');
                 Route::post('product/{product]/update', [ProductController::class, 'update'])->name('product.update');
                 Route::post('product/{product]/store', [ProductController::class, 'store'])->name('product.store');
-                Route::resource('color', ColorController::class);
+                Route::get('color', [ColorController::class,'index'])->name('color.index');
 
 
                 Route::get('product/prices', [ColorController::class, 'prices']);

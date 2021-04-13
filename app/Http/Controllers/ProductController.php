@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Price;
-use App\Models\Quantity;
 use App\Models\Color;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -80,17 +78,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      * @param  Request  $request
      *
@@ -121,7 +108,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-
         $request->validate(
             [
                 'ean' => 'required|string|size:8',
@@ -152,9 +138,35 @@ class ProductController extends Controller
      */
     public function destroy($language, Product $product)
     {
-
         $product->delete();
 
         return redirect()->route('dashboard', $language);
     }
+    /**
+     * Return product list.
+     *
+     */
+    public function productList()
+    {
+
+        return $this->productRepository->productList();
+    }
+    /**
+     * Return colors types.
+     *
+     */
+    public function productColores()
+    {
+        return $this->productRepository->productColores();
+    }
+
+    /**
+     * return product types
+     * @return \Illuminate\Support\Collection
+     */
+    public function productTypes()
+    {
+        return $this->productRepository->productTypes();
+    }
+
 }

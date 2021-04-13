@@ -8,6 +8,7 @@ use App\Models\Color;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Quantity;
+use App\Models\Type;
 
 class ProductRepository
 {
@@ -25,5 +26,29 @@ class ProductRepository
                 'price' => $price,
                 'quantity' => $quantity,
             ];
+    }
+
+    /**
+     * @return Product[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function productList()
+    {
+        return Product::all();
+    }
+
+    /**
+     * @return Color[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function productColores()
+    {
+        return Color::all();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function productTypes()
+    {
+        return Type::all();
     }
 }
