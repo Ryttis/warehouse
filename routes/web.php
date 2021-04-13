@@ -16,39 +16,59 @@ use \App\Http\Controllers\HistoryController;
 |
 */
 
-Route::get(
-    '/',
+Route::redirect('/', app()->getLocale());
+
+Route::group(['prefix' => '{language}'],
     function () {
-        return redirect('login');
-    }
-);
 
-Route::middleware(['auth'])->group(
-    function () {
-        Route::resource('product', ProductController::class);
-        Route::post('product/edit/{product]', [ProductController::class, 'edit']);
-        Route::post('product/update/{product]', [ProductController::class, 'update']);
-        Route::resource('color', ColorController::class);
+        Route::get(
+            '/',
+            function () {
+                return view('welcome');
+            }
+        )->name('welcome');
 
-//        Route::post('color/edit/{product]', [ColorController::class, 'edit']);
-//        Route::post('color/update/{product]', [ColorController::class, 'update']);
-        Route::get('product/prices', [ColorController::class, 'prices']);
-        Route::get('product/quantities', [ColorController::class, 'quantities']);
-        Route::get('product/details', [ColorController::class, 'details']);
+        Route::middleware(['auth'])->group(
+            function () {
 
-
-        Route::get('history/prices', [HistoryController::class,'prices'])->name('history-prices');
-        Route::get('history/quantities', [HistoryController::class,'quantities'])->name('history-quantities');
-        Route::get('history/trashed', [HistoryController::class,'trashed'])->name('history-trashed');
-        Route::post('history/restore', [HistoryController::class,'restore'])->name('history-restore');
-
-        Route::resource('history', HistoryController::class)->except([
-            'create', 'store', 'update','show'
-        ]);
-    }
-);
+                Route::resource('product', ProductController::class)->except(
+                    [
+                        'show',
+                        'store',
+                        'update',
+                        'edit',
+                    ]
+                );
+                Route::get('product/{product]/edit', [ProductController::class, 'edit'])->name('product.edit');
+                Route::post('product/{product]/update', [ProductController::class, 'update'])->name('product.update');
+                Route::post('product/{product]/store', [ProductController::class, 'store'])->name('product.store');
+                Route::resource('color', ColorController::class);
 
 
-Route::get('/dashboard', [ProductController::class, 'index'])->middleware(['auth'])->name('dashboard');
+                Route::get('product/prices', [ColorController::class, 'prices']);
+                Route::get('product/quantities', [ColorController::class, 'quantities']);
+                Route::get('product/details', [ColorController::class, 'details']);
 
-require __DIR__.'/auth.php';
+
+                Route::get('history/prices', [HistoryController::class, 'prices'])->name('history-prices');
+                Route::get('history/quantities', [HistoryController::class, 'quantities'])->name('history-quantities');
+                Route::get('history/trashed', [HistoryController::class, 'trashed'])->name('history-trashed');
+                Route::post('history/restore', [HistoryController::class, 'restore'])->name('history-restore');
+
+                Route::resource('history', HistoryController::class)->except(
+                    [
+                        'create',
+                        'store',
+                        'update',
+                        'show'
+                    ]
+                );
+            }
+        );
+
+
+        Route::get('/dashboard', [ProductController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
+        require __DIR__.'/auth.php';
+
+    });

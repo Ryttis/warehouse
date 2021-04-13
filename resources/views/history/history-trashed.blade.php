@@ -28,11 +28,9 @@
                                 <td class="pl-8">{{ $detail->name  }}</td>
                                 <td class="pl-8">{{ $detail->deleted_at }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-centered text-sm font-medium">
-                                    <form action={{ route('history.destroy', $detail->id) }} method="POST">
-{{--                                        <a class="text-indigo-600 hover:text-indigo-900"--}}
-{{--                                           href={{ route('history.destroy', $detail->id) }}>Restore</a>--}}
+                                    <form action={{ route('history.destroy', ['language' => app()->getLocale() ,'history' => $detail->id ] ) }} method="POST">
                                         @csrf @method('delete')
-                                        <input type="submit" class="text-red-600 hover:text-red-900" value="Restore"/>
+                                        <input type="submit" class="text-red-600 hover:text-red-900" value="{{__('Restore')}}"/>
                                     </form>
                                 </td>
                             </tr>

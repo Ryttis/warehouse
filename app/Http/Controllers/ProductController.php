@@ -3,13 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Price;
+use App\Models\Quantity;
 use App\Models\Color;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+
 
 class ProductController extends Controller
 {
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +43,7 @@ class ProductController extends Controller
     {
         $colors = Color::all();
 
-        return view('components.product-create', ['colors' => $colors]);
+        return view('components.product-create', ['colors' => $colors, 'language' => app()->getLocale()]);
     }
 
     /**
@@ -42,8 +54,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validator = Validator::make($request->all(),
+        $request->validate(
             [
                 'ean' => 'required|string|size:8',
                 'type' => 'required|string',
@@ -53,14 +64,6 @@ class ProductController extends Controller
                 'status' => 'required',
             ]
         );
-
-        if ($validator->fails()) {
-            return redirect('product/create')
-                ->withErrors($validator->errors())
-                ->withInput();
-        }
-
-
 
         $product = new Product();
         $product->fill($request->all());
@@ -73,7 +76,7 @@ class ProductController extends Controller
         $product->image = $request->image;
         $product->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard', app()->getLocale());
     }
 
     /**
@@ -89,15 +92,24 @@ class ProductController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param  Request  $request
      *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Request $request, Product $product, $language)
     {
-        $colors = Color::all();
+        $productId = $request->product;
+        $editableFields = $this->productRepository->editFields($productId);
 
-        return view('components.product-edit', ['product' => $product, 'colors' => $colors]);
+        return view(
+            'components.product-edit',
+            [
+                'product' => $editableFields['product'],
+                'colors' => $editableFields['colors'],
+                'price' => $editableFields['price'],
+                'quantity' => $editableFields['quantity'],
+                app()->getLocale(),
+            ]
+        );
     }
 
     /**
@@ -109,6 +121,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
         $request->validate(
             [
                 'ean' => 'required|string|size:8',
@@ -129,19 +142,19 @@ class ProductController extends Controller
         $product->image = $request->image;
         $product->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard', app()->getLocale());
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($language, Product $product)
     {
+
         $product->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard', $language);
     }
 }
