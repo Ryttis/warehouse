@@ -22,13 +22,13 @@ There is an app where a user can manage his warehouse. Users is able to Create, 
 - php artisan key:generate  
 - php artisan serve
 
-##Project launching & credencials
+## Project launching & credencials
 
 - launch project on localhost:8000
 - during database seeding fake user will be created:
-####email -> admin@admin.com
-####username -> admin
-####password -> password
+#### email -> admin@admin.com
+#### username -> admin
+#### password -> password
 
 ### Main project features and functionalities
 - Laravel authentication is enabled
