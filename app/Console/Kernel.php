@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Product;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +27,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            Product::onlyTrashed()
+                ->whereDate('deleted_at','<',
+                    Carbon::today()->subDays(7)->toDateString())
+            ->delete()})
+            ->daily();
+
     }
 
     /**
