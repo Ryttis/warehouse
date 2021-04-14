@@ -15,8 +15,11 @@ There is an app where a user can manage his warehouse. Users is able to Create, 
 - composer install
 - npm install
 - docker-compose up -d
+- .env.example change into .env 
+- DB_PASSWORD=root  
 - php artisan migrate:fresh --seed
-- php artisan storage:link  
+- php artisan storage:link 
+- php artisan key:generate  
 - php artisan serve
 
 ##Project launching & credencials

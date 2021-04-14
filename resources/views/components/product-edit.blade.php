@@ -51,8 +51,13 @@
 
                     <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                         <label for="image" class="block text-sm font-medium text-gray-700">{{__('Image')}}</label>
-                        <input type="text" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <input type="file" name="image" id="image"
+                               class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        @if ($errors->any())
+                            {{ $errors->first('image') }}
+                        @endif
                     </div>
+
                     <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                         <label for="price" class="block text-sm font-medium text-gray-700">{{__('Price')}}</label>
                         <input type="text" name="price" id="price" value="{{$price->price}}"class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
