@@ -1,6 +1,6 @@
 ## About Application Warehouse
 
-There is an app where a user can manage his warehouse. Users is be able to Create, Update, Delete products. Products  have different types and few description fields (color, active etc.).
+There is an app where a user can manage his warehouse. Users is able to Create, Update, Delete products. Products  have different types and few description fields (color, active etc.).
 
 
 

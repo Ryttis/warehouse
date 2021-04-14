@@ -63,6 +63,10 @@ class ProductController extends Controller
             ]
         );
 
+        if ($request->hasFile('image')) {
+            $request->file('image')->store('images', 'public');
+        }
+
         $product = new Product();
         $product->fill($request->all());
         $product->ean = $request->ean;

@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
             Product::onlyTrashed()
                 ->whereDate('deleted_at','<',
                     Carbon::today()->subDays(7)->toDateString())
-            ->delete()})
+            ->delete(); })
             ->daily();
 
     }

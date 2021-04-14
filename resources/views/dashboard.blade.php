@@ -46,6 +46,11 @@
                                 {{__('Status')}}
                             </th>
 
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {{__('Image')}}
+                            </th>
+
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">{{__('Edit')}}</span>
                             </th>
@@ -74,7 +79,7 @@
                                         @endif
                                     </span>
                                 </td>
-
+                                <td><img src="{{ storage_path('app/public/storage/images'.$product->image) }}"></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <form
                                         action={{ route('product.destroy', [  'product' => $product->id, 'language' => app()->getLocale()] )  }} method="POST">
