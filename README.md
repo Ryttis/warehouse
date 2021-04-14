@@ -16,6 +16,7 @@ There is an app where a user can manage his warehouse. Users is able to Create, 
 - npm install
 - docker-compose up -d
 - php artisan migrate:fresh --seed
+- php artisan storage:link  
 - php artisan serve
 
 ##Project launching & credencials
@@ -37,7 +38,7 @@ There is an app where a user can manage his warehouse. Users is able to Create, 
 - Fake data added in favore of https://github.com/fzaninotto/Faker
 - Project supports multilanguage mode ( English & Lithuanian) aditional languages can be added with minimal efforts
 - Command for deleting all soft deleted records which are older than 7 days is scheluled on daily basis
-###API for mobile application integration:
+### API for mobile application integration:
 - Laravel Sanctum is used for tokens and authorization
 - use postman or insomnia to test api enpoints:
 on post request uri http://localhost/api/sanctum/token enter fake user email and password, third parameted -> device_name.This parameter is required.After seding request token will be aquired.
